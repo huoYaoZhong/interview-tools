@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "@dcloudio/types": "^3.4.19",
+    "@dcloudio/uni-app": "^2.0.2-4070620250821001",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.21"
+  },
+  "dependencies": {
+    "clipboard": "^2.0.11",
+    "dayjs": "^1.11.18"
+  },
+  "uni-app": {
+    "scripts": {
+      "prod-h5": {
+        "title": "正式环境(h5)",
+        "BROWSER": "Chrome",
+        "env": {
+          "UNI_PLATFORM": "h5",
+          "VUE_APP_ENV": "prod_h5"
+        },
+        "define": {}
+      }
+
+    }
+  }
+}
