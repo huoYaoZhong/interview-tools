@@ -1,13 +1,15 @@
 <script>
-	export default {
+	import {I18nUtil} from "./scripts/util/i18n-util";
+    import {useI18n} from "vue-i18n";
+    export default {
 		onLaunch: function() {
-			console.log('App Launch')
+            I18nUtil.useI18nData = useI18n();
 		},
 		onShow: function() {
-			console.log('App Show')
+
 		},
 		onHide: function() {
-			console.log('App Hide')
+
 		}
 	}
 </script>

@@ -1,5 +1,6 @@
 <template>
   <view class="content">
+      <view>{{t('Home')}}</view>
     <view class="text-area">
       <text class="title">{{navbarTitleUi}}</text>
     </view>
@@ -17,15 +18,32 @@
 
 <script setup lang="ts">
 import {Ref, ref} from "vue";
+import {useI18n} from 'vue-i18n';
+import {onLoad} from "@dcloudio/uni-app";
+import {I18nUtil} from "../../scripts/util/i18n-util";
+import {LanguageUniEnum} from "../../scripts/constant/language-uni-enum";
+
+const {t,locale} = useI18n()
+
 const list1 = ref([
   'https://cdn.uviewui.com/uview/swiper/swiper1.png',
   'https://cdn.uviewui.com/uview/swiper/swiper2.png',
   'https://cdn.uviewui.com/uview/swiper/swiper3.png',
 ]);
 let navbarTitleUi:Ref<string>=ref('Yum Me Print Merchant Portal');
+
+onLoad(options => {
+    setTimeout(()=>{
+        //切换语言
+        console.log('切换语言')
+        I18nUtil.changeAppLanguage(LanguageUniEnum.ZH_CN);
+    },5000)
+})
+
 function aa(){
 
 }
+
 </script>
 
 <style>

@@ -1,5 +1,16 @@
 import App from './App'
 import uviewPlus from './uni_modules/uview-plus'
+import en from './locale/en.json'
+import zhHans from './locale/zh-Hans.json'
+
+const messages = {
+    en,
+    'zh-Hans': zhHans,
+}
+let i18nConfig = {
+    locale: uni.getLocale(),
+    messages
+}
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'
@@ -13,8 +24,12 @@ app.$mount()
 
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
+import {createI18n} from 'vue-i18n'
+import {LanguageUniEnum} from "./scripts/constant/language-uni-enum";
+const i18n = createI18n(i18nConfig);
 export function createApp() {
   const app = createSSRApp(App)
+    app.use(i18n);
     app.use(uviewPlus, () => {
         return {
             options: {
