@@ -1,7 +1,18 @@
+<template>
+    <App>
+        <slot/>
+        <!-- 仅 H5 和 App 端显示 Vue tabBar -->
+        <!-- #ifdef H5 || APP-PLUS -->
+        <CustomTabBar />
+        <!-- #endif -->
+    </App>
+</template>
 <script>
+    import CustomTabBar from "./components/custom-tab-bar.vue"
 	import {I18nUtil} from "./scripts/util/i18n-util";
     import {useI18n} from "vue-i18n";
     export default {
+        components: {CustomTabBar},
 		onLaunch: function() {
             I18nUtil.useI18nData = useI18n();
 		},

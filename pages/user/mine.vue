@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import {Ref, ref} from "vue";
+import {Ref, ref,getCurrentInstance} from "vue";
 import {useI18n} from 'vue-i18n';
 import {onLoad} from "@dcloudio/uni-app";
 import {I18nUtil} from "../../scripts/util/i18n-util";
@@ -21,10 +21,19 @@ onLoad(options => {
     //     console.log('切换语言')
     //     I18nUtil.changeAppLanguage(LanguageUniEnum.ZH_CN);
     // },5000)
+
+    setTabBar();
 })
 
-function aa(){
-
+function setTabBar(){
+    // #ifdef MP-WEIXIN
+    const { proxy } = getCurrentInstance();
+    //@ts-ignore
+    const tabBar = proxy.$scope.getTabBar();
+    if (tabBar) {
+        tabBar.init();
+    }
+    // #endif
 }
 
 </script>
