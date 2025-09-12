@@ -1,3 +1,4 @@
+//暂时废弃了
 Component({
     data: {
         selected: 0,
@@ -22,6 +23,10 @@ Component({
         switchTab: function (e) {
             let data = e.currentTarget.dataset;
             let url = data.path;
+            let page = getCurrentPages().pop();
+            if (page&&page.$vm&&page.$vm.aa){
+                page.$vm.aa()
+            }
             wx.switchTab({ url: url });
         },
         init: function () {

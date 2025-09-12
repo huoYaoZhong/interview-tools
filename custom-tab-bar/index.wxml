@@ -1,5 +1,5 @@
-<!--miniprogram/custom-tab-bar/index.wxml-->
-<view class="tab-bar" wx:if="{{hidden}}">
+<!--miniprogram/custom-tab-bar/index.wxml 暂时废弃了-->
+<view class="tab-bar">
   <view class="tab-bar-content">
     <view wx:for="{{list}}" wx:key="index" class="tab-bar-item" data-path="{{item.pagePath}}" data-index="{{index}}"
           bindtap="switchTab">

@@ -1,16 +1,16 @@
 <template>
-    <view class="tab-bar" v-if="hidden">
+    <view class="tab-bar" >
         <view class="tab-bar-content">
             <view  class="tab-bar-item"
                   v-for="(item,index) in list" :key="index"
                   @click="switchTab(item.pagePath)">
-                <view v-if="selected===index" class="round-top"></view>
-                <view class="round" v-if="selected===index">
+                <view v-if="tabIndex===index" class="round-top"></view>
+                <view class="round" v-if="tabIndex===index">
                     <image :class=" {'image':item.selectedStyle === 1,'images':item.selectedStyle !== 1}" :src="item.selectedIconPath"></image>
                 </view>
                 <view class="item-content">
                     <image class="image" :src="item.iconPath"></image>
-                    <view class="p" :class="{'active':selected===index}" >{{item.text}}</view>
+                    <view class="p" :class="{'active':tabIndex===index}" >{{item.text}}</view>
                 </view>
             </view>
         </view>
@@ -19,10 +19,15 @@
 <script setup lang="ts">
 import {nextTick, onBeforeMount, onMounted, Ref, ref} from 'vue';
 import {onLoad} from "@dcloudio/uni-app";
+export interface Props {
+  tabIndex: number;
+}
 
+const props = withDefaults(defineProps<Props>(), {
+  tabIndex: 0,
+})
 
 let selected:Ref<number>=ref(0);
-let hidden: Ref<boolean> = ref(true);
 let list= ref([{
     pagePath: "/pages/index/index",
     iconPath: "/static/image/index.png",
@@ -38,7 +43,8 @@ let list= ref([{
 }])
 
 onLoad((options: any)=>{
-    console.log('执行里面=========')
+  console.log('执行55555555555555')
+  // uni.hideTabBar();
 })
 onBeforeMount(() => {
 

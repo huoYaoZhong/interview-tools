@@ -29,7 +29,7 @@
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
-		"custom": true,
+		"custom": false,
 		"color": "#7A7E83",
 		"selectedColor": "#3cc51f",
 		"borderStyle": "black",
@@ -37,11 +37,11 @@
 		"list": [
 			{
 				"pagePath": "pages/index/index",
-				"text": "首页"
+				"text": ""
 			},
 			{
 				"pagePath": "pages/user/mine",
-				"text": "我的"
+				"text": ""
 			}
 		]
 	},
