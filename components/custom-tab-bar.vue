@@ -3,10 +3,10 @@
         <view class="tab-bar-content">
             <view  class="tab-bar-item"
                   v-for="(item,index) in list" :key="index"
-                  @click="switchTab(item.pagePath)">
+                  @click="switchTab(item.pagePath,index)">
                 <view v-if="tabIndex===index" class="round-top"></view>
                 <view class="round" v-if="tabIndex===index">
-                    <image :class=" {'image':item.selectedStyle === 1,'images':item.selectedStyle !== 1}" :src="item.selectedIconPath"></image>
+                    <image :style="{top:item.selectedStyle === 1?imageTop+'px':'11rpx'}" :class=" {'image':item.selectedStyle === 1,'images':item.selectedStyle !== 1}" :src="item.selectedIconPath"></image>
                 </view>
                 <view class="item-content">
                     <image class="image" :src="item.iconPath"></image>
@@ -17,17 +17,23 @@
     </view>
 </template>
 <script setup lang="ts">
-import {nextTick, onBeforeMount, onMounted, Ref, ref} from 'vue';
+import {nextTick, onBeforeMount, onMounted, Ref, ref, watch} from 'vue';
 import {onLoad} from "@dcloudio/uni-app";
+import {PageSizeUtil} from "../scripts/util/page-size-util";
 export interface Props {
   tabIndex: number;
+  scrollTop?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   tabIndex: 0,
+  scrollTop:0,
 })
-
-let selected:Ref<number>=ref(0);
+watch(() => props.scrollTop, (newVal: number, oldVal: number) => {
+  if (newVal) {
+    imageTopInit();
+  }
+})
 let list= ref([{
     pagePath: "/pages/index/index",
     iconPath: "/static/image/index.png",
@@ -41,10 +47,10 @@ let list= ref([{
     text: "我的",
     selectedStyle: 2
 }])
+let imageTop:Ref<number>=ref(5.5);
 
 onLoad((options: any)=>{
-  console.log('执行55555555555555')
-  // uni.hideTabBar();
+  imageTopInit();
 })
 onBeforeMount(() => {
 
@@ -53,8 +59,21 @@ onMounted(() => {
 
 });
 
-function switchTab(url:string){
+function switchTab(url:string,index:number){
     uni.switchTab({ url: url });
+    if (props.tabIndex===0&&index===0){
+
+      uni.pageScrollTo({
+        scrollTop: 0,      // 滚动到页面的垂直位置（单位px）
+        duration: 300      // 滚动动画时间，单位ms，可选
+      });
+    }
+}
+function imageTopInit(){
+  imageTop.value=11*PageSizeUtil.turnPxScale;
+  if (props.scrollTop>350){
+    imageTop.value=-75*PageSizeUtil.turnPxScale;
+  }
 }
 
 </script>
@@ -94,7 +113,7 @@ function switchTab(url:string){
   z-index: -4;
   overflow: hidden;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI4AAAAtCAMAAABPq6N6AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAkUExURaqqqrOzs0xpcaioqKampvPz8+zs7Pz8/Pn5+d3d3f7+/v///zC/xUkAAAALdFJOUwoFACIVmXnWuVbsWW1REwAAAhdJREFUWMPtl8l2wyAMReUaA4b//996AiSBMZOTLvrSRTap77nCwIOfPxXo+/nEPl/DOR6//7H0UUEzSS7NTNACQwI+EdLrOJjFQQD70mMJ2kZEOBIJQO/ZiaazRWwfEHuOL1hUiyGoNeOsiBMiEQ8FyNA01g4Vc8+SIRqDE8xELHOcmKjqPYNaMxmUBBMGGoFDzVxi/HNXuWiljLHWGKX0IldKBBioRBCU7TTYjCPRG0Ucox0TNlQqCEpWDTJzPukGBSEFIhAVgqBg2QQzp5cly3IRLWtQhHjacaYkjFS2MEoGQx7owQ8UqfFzKocJQDWCoNTNMaYqmANoJYIeeaBw2ez/VduGaCLoaUHDoxs/J2ObYtzEsJ+pCgdtNl1qmKCwoGvtMJrV2I6YNeKZynGom2NQtjPRwGrs8GWz2O4sEc9UhJNYxANoAo/IvvBw/4IPpUn4SQmCx71vEA3zcyMI7u427owaRnPxzOzOMaVwyN0cqRlJg3gEaT8ICWirBHZ+D6WJeHBFPI1A3G+FH1TPVpzZoOfo3hoIeJdDl776A7z0iJ9p+4FE4edz6jwYsgdGuNvDbb0W5Go+flB0YDMviKxpu/503UGNfS1G3nZE2m59f1L21aiVA7nZxSyvwxAgigR+PC7yAzCoaDim6wJL27XU9oPRkrd7wH1b2Y9HoV6/4yx7tP4CCWLSeoOQW8D+qfzj5PILImCLlJBdwN8AAAAASUVORK5CYII=);
-  /* background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI4AAAAhCAMAAAA4aWMBAAAAhFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8g2+bRAAAAK3RSTlMAz3GoVRL57dO1gy7phhaPiVA/6N7Dv39pBfWwoZ6Sd1hLRzwmHwnfYmADEx1r6wAAAQdJREFUWMPt1UdywzAQRNEBAQYwZ5HK2aHvfz97540tkUjiwu8Ev6a6akhHXg+F7NhbGARhyzpZDHVOr5F4MsQvQukl5NZY8RQPNLwayZWkSPFUWri5kWCYiAmyTUSYIbIbdIowU3QiW3IOBTwnK95DKAk/yDxfQpn0ybCkhYY2IaOOa2hZCzJoBW0rMiYGFtQTw4iYjMiABfVkwIJ6MhiUkaYSRpWk485hGL+TshuDcexGis4pLEjPpMLfwpKdwkcVDaxpBM1Td7Cqr2m6Sw/r+svEzXgMTrDh6YbyIw/gTMDFn0XjtSoZnGNldf2kH553yPbbTRTgZYJos9vHB+8bYVH+cx75AtZqq3IiGZR6AAAAAElFTkSuQmCC); */
+  //background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI4AAAAhCAMAAAA4aWMBAAAAhFBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////8g2+bRAAAAK3RSTlMAz3GoVRL57dO1gy7phhaPiVA/6N7Dv39pBfWwoZ6Sd1hLRzwmHwnfYmADEx1r6wAAAQdJREFUWMPt1UdywzAQRNEBAQYwZ5HK2aHvfz97540tkUjiwu8Ev6a6akhHXg+F7NhbGARhyzpZDHVOr5F4MsQvQukl5NZY8RQPNLwayZWkSPFUWri5kWCYiAmyTUSYIbIbdIowU3QiW3IOBTwnK95DKAk/yDxfQpn0ybCkhYY2IaOOa2hZCzJoBW0rMiYGFtQTw4iYjMiABfVkwIJ6MhiUkaYSRpWk485hGL+TshuDcexGis4pLEjPpMLfwpKdwkcVDaxpBM1Td7Cqr2m6Sw/r+svEzXgMTrDh6YbyIw/gTMDFn0XjtSoZnGNldf2kH553yPbbTRTgZYJos9vHB+8bYVH+cx75AtZqq3IiGZR6AAAAAElFTkSuQmCC);
 
 
   background-repeat: no-repeat;
@@ -114,10 +133,11 @@ function switchTab(url:string){
   z-index: 2;
   background: linear-gradient(135deg,#ff7f80,#fc5f5e);
   transform: translateX(-50%);
+  overflow: hidden;
 }
 .tab-bar-item .round .image{
   position: absolute;
-  top: 11rpx;
+  top: -75rpx;
   left: 50%;
   transform: translateX(-50%);
   z-index: 4;
