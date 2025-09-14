@@ -1,20 +1,31 @@
-
 <script>
-    import CustomTabBar from "./components/custom-tab-bar.vue"
-	import {I18nUtil} from "./scripts/util/i18n-util";
-    import {useI18n} from "vue-i18n";
-    export default {
-		onLaunch: function() {
-            uni.hideTabBar();
-            I18nUtil.useI18nData = useI18n();
-		},
-		onShow: function() {
+import CustomTabBar from "./components/custom-tab-bar.vue"
+import {I18nUtil} from "./scripts/util/i18n-util";
+import {useI18n} from "vue-i18n";
+import {PageSizeUtil} from "./scripts/util/page-size-util";
 
-		},
-		onHide: function() {
+export default {
+  onLaunch: function () {
 
-		}
-	}
+    // #ifdef MP-WEIXIN
+    uni.hideTabBar();
+    // #endif
+    // #ifdef H5 || APP-PLUS
+    setTimeout(() => {
+      uni.hideTabBar();
+    }, 150)
+    // #endif
+    PageSizeUtil.initSize();
+    I18nUtil.useI18nData = useI18n();
+
+  },
+  onShow: function () {
+
+  },
+  onHide: function () {
+
+  }
+}
 </script>
 
 <style lang="scss">
