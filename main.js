@@ -37,7 +37,7 @@ export function createApp() {
                 config: {
                     // 修改默认单位为rpx，相当于执行 uni.$u.config.unit = 'rpx'
                     unit: 'rpx'
-                }
+                },
             }
         }
     })

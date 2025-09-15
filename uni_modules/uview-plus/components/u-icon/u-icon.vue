@@ -234,5 +234,6 @@
 			line-height: $u-icon-label-line-height;
 			/* #endif */
 		}
+
 	}
 </style>

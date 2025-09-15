@@ -15,6 +15,7 @@
         <text class="grid-text">{{ baseListItem.title }}</text>
       </up-grid-item>
     </up-grid>
+      <view class="iconfont icon-lanya cs"></view>
     <CustomTabBar :tabIndex="0" :scrollTop="scrollTopUi"/>
   </view>
 </template>
@@ -26,6 +27,7 @@ import {onLoad, onPageScroll} from "@dcloudio/uni-app";
 
 import CustomTabBar from "../../components/custom-tab-bar.vue";
 import {PageSizeUtil} from "../../scripts/util/page-size-util";
+import UIcon from "../../uni_modules/uview-plus/components/u-icon/u-icon.vue";
 
 const {t, locale} = useI18n()
 
@@ -70,6 +72,10 @@ onPageScroll((e)=>{
 </script>
 
 <style scoped lang="scss">
+.cs{
+  font-size: 100rpx;
+  color: #00ff00;
+}
 .content{
   width: 100%;
   height: 1000px;

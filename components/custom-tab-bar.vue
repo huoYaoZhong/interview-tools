@@ -1,16 +1,18 @@
 <template>
-    <view class="tab-bar" >
+    <view class="tab-bar">
         <view class="tab-bar-content">
-            <view  class="tab-bar-item"
+            <view class="tab-bar-item"
                   v-for="(item,index) in list" :key="index"
                   @click="switchTab(item.pagePath,index)">
                 <view v-if="tabIndex===index" class="round-top"></view>
                 <view class="round" v-if="tabIndex===index">
-                    <image :style="{top:item.selectedStyle === 1?imageTop+'px':'11rpx'}" :class=" {'image':item.selectedStyle === 1,'images':item.selectedStyle !== 1}" :src="item.selectedIconPath"></image>
+                    <image :style="{top:item.selectedStyle === 1?imageTop+'px':'11rpx'}"
+                           :class=" {'image':item.selectedStyle === 1,'images':item.selectedStyle !== 1}"
+                           :src="item.selectedIconPath"></image>
                 </view>
                 <view class="item-content">
                     <image class="image" :src="item.iconPath"></image>
-                    <view class="p" :class="{'active':tabIndex===index}" >{{item.text}}</view>
+                    <view class="p" :class="{'active':tabIndex===index}">{{ item.text }}</view>
                 </view>
             </view>
         </view>
@@ -20,21 +22,22 @@
 import {nextTick, onBeforeMount, onMounted, Ref, ref, watch} from 'vue';
 import {onLoad} from "@dcloudio/uni-app";
 import {PageSizeUtil} from "../scripts/util/page-size-util";
+
 export interface Props {
-  tabIndex: number;
-  scrollTop?: number;
+    tabIndex: number;
+    scrollTop?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  tabIndex: 0,
-  scrollTop:0,
+    tabIndex: 0,
+    scrollTop: 0,
 })
 watch(() => props.scrollTop, (newVal: number, oldVal: number) => {
-  if (newVal) {
-    imageTopInit();
-  }
+    if (newVal) {
+        imageTopInit();
+    }
 })
-let list= ref([{
+let list = ref([{
     pagePath: "/pages/index/index",
     iconPath: "/static/image/index.png",
     selectedIconPath: "/static/image/indexs.png",
@@ -47,10 +50,11 @@ let list= ref([{
     text: "我的",
     selectedStyle: 2
 }])
-let imageTop:Ref<number>=ref(5.5);
+let imageTop: Ref<number> = ref(5.5);
 
-onLoad((options: any)=>{
-  imageTopInit();
+onLoad((options: any) => {
+    uni.hideTabBar();
+    imageTopInit();
 })
 onBeforeMount(() => {
 
@@ -59,21 +63,22 @@ onMounted(() => {
 
 });
 
-function switchTab(url:string,index:number){
-    uni.switchTab({ url: url });
-    if (props.tabIndex===0&&index===0){
+function switchTab(url: string, index: number) {
+    uni.switchTab({url: url});
+    if (props.tabIndex === 0 && index === 0) {
 
-      uni.pageScrollTo({
-        scrollTop: 0,      // 滚动到页面的垂直位置（单位px）
-        duration: 300      // 滚动动画时间，单位ms，可选
-      });
+        uni.pageScrollTo({
+            scrollTop: 0,      // 滚动到页面的垂直位置（单位px）
+            duration: 300      // 滚动动画时间，单位ms，可选
+        });
     }
 }
-function imageTopInit(){
-  imageTop.value=11*PageSizeUtil.turnPxScale;
-  if (props.scrollTop>350){
-    imageTop.value=-75*PageSizeUtil.turnPxScale;
-  }
+
+function imageTopInit() {
+    imageTop.value = 11 * PageSizeUtil.turnPxScale;
+    if (props.scrollTop > 350) {
+        imageTop.value = -75 * PageSizeUtil.turnPxScale;
+    }
 }
 
 </script>
@@ -87,16 +92,18 @@ function imageTopInit(){
   height: 100rpx;
   background: #fff;
   z-index: 9999;
-  box-shadow: 0 -2rpx 40rpx 0 rgba(0,0,0,.1);
+  box-shadow: 0 -2rpx 40rpx 0 rgba(0, 0, 0, .1);
 }
-.tab-bar-content{
+
+.tab-bar-content {
   width: 100%;
   height: 100rpx;
 
   position: relative;
   display: flex;
 }
-.tab-bar-item{
+
+.tab-bar-item {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
@@ -105,7 +112,7 @@ function imageTopInit(){
   display: flex;
 }
 
-.tab-bar-item .round-top{
+.tab-bar-item .round-top {
   width: 100%;
   position: absolute;
   top: -43rpx;
@@ -123,7 +130,7 @@ function imageTopInit(){
   content: "";
 }
 
-.tab-bar-item .round{
+.tab-bar-item .round {
   position: absolute;
   top: -14rpx;
   left: 50%;
@@ -131,11 +138,12 @@ function imageTopInit(){
   height: 68rpx;
   border-radius: 50%;
   z-index: 2;
-  background: linear-gradient(135deg,#ff7f80,#fc5f5e);
+  background: linear-gradient(135deg, #ff7f80, #fc5f5e);
   transform: translateX(-50%);
   overflow: hidden;
 }
-.tab-bar-item .round .image{
+
+.tab-bar-item .round .image {
   position: absolute;
   top: -75rpx;
   left: 50%;
@@ -144,7 +152,8 @@ function imageTopInit(){
   width: 44rpx;
   height: 132rpx;
 }
-.tab-bar-item .round .images{
+
+.tab-bar-item .round .images {
   position: absolute;
   top: 11rpx;
   left: 50%;
@@ -154,7 +163,7 @@ function imageTopInit(){
   height: 44rpx;
 }
 
-.item-content{
+.item-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -163,15 +172,18 @@ function imageTopInit(){
   padding: 9rpx 0rpx 12rpx 0rpx;
 
 }
-.item-content .image{
+
+.item-content .image {
   width: 44rpx;
   height: 44rpx;
 }
-.item-content .p{
+
+.item-content .p {
   font-size: 20rpx;
   color: #b0b0b0;
 }
-.item-content .p.active{
+
+.item-content .p.active {
   color: #fc5f46;
 }
 </style>
