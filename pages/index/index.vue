@@ -1,21 +1,13 @@
 <template>
-  <view class="content" :style="{height:pageContentHeight+'px'}">
-    <up-grid
-        :border="false"
-    >
-      <up-grid-item
-          v-for="(baseListItem,baseListIndex) in baseList"
-          :key="baseListIndex"
-      >
-        <up-icon
-            :customStyle="{paddingTop:20+'rpx'}"
-            :name="baseListItem.name"
-            :size="22"
-        ></up-icon>
-        <text class="grid-text">{{ baseListItem.title }}</text>
-      </up-grid-item>
-    </up-grid>
-      <view class="iconfont icon-lanya cs"></view>
+  <view class="page-content">
+      <view class="grid-list">
+          <view class="li" v-for="(item,index) in setListUi" :key="item.key" @click="goPage(item.key)">
+              <div class="icon" >
+                  <view class="icon-p iconfont" :class="{[item.iconName]:true}" :style="{'font-size':item.iconFontSize}"></view>
+              </div>
+              <view class="p" >{{item.name}}</view>
+          </view>
+      </view>
     <CustomTabBar :tabIndex="0" :scrollTop="scrollTopUi"/>
   </view>
 </template>
@@ -31,39 +23,40 @@ import UIcon from "../../uni_modules/uview-plus/components/u-icon/u-icon.vue";
 
 const {t, locale} = useI18n()
 
-let  pageContentHeight:Ref<number>=ref(1400);
+
 let scrollTopUi:Ref<number>=ref(0);
-let baseList = ref([
-  {
-    name: 'photo',
-    title: '图片'
-  },
-  {
-    name: 'lock',
-    title: '锁头'
-  },
-  {
-    name: 'star',
-    title: '星星'
-  },
-  {
-    name: 'hourglass',
-    title: '沙漏'
-  },
-  {
-    name: 'home',
-    title: '首页'
-  },
-  {
-    name: 'volume', // 注意：这里修改了 name 从 'star' 改为 'volume'，以避免列表中两个元素具有相同的 name
-    title: '音量'
-  },
+let setListUi:Ref<Array<{ key:string,name:string,iconName:string,iconFontSize:string }>> = ref([
+    {
+        key:'print-order-list',
+        name:'蓝牙',
+        iconName:'icon-lanya',
+        iconFontSize:'74rpx'
+
+    },
+    {
+        key:'print-order-list',
+        name:'蓝牙',
+        iconName:'icon-lanya',
+        iconFontSize:'74rpx'
+
+    },
+    {
+        key:'print-order-list',
+        name:'蓝牙',
+        iconName:'icon-lanya',
+        iconFontSize:'74rpx'
+
+    },
+
 ]);
 
 onLoad(options => {
 
 
 })
+function goPage(key:string){
+
+}
 onPageScroll((e)=>{
   scrollTopUi.value=e.scrollTop;
 })
@@ -72,14 +65,40 @@ onPageScroll((e)=>{
 </script>
 
 <style scoped lang="scss">
-.cs{
-  font-size: 100rpx;
-  color: #00ff00;
-}
-.content{
+.page-content{
   width: 100%;
-  height: 1000px;
-  padding: 0;
-  margin: 0;
+  height: 1400px;
+  border-top: 2rpx solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  background: #FFFFFF;
+  .grid-list{
+
+    display: flex;
+    padding: 20rpx 20rpx;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content: space-between;
+    .li{
+      width: 346rpx;
+      height: 230rpx;
+      background: #F8F8F8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 14rpx;
+      border-radius: 30rpx;
+      overflow: hidden;
+      .icon{
+
+      }
+      .p{
+        padding-top: 10rpx;
+        font-size: 30rpx;
+        color: #333333;
+        text-align: center;
+      }
+    }
+  }
 }
 </style>
